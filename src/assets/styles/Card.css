@@ -1,0 +1,29 @@
+.card {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  .card__data {
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 0 10px 10px 0;
+    padding: 10px;
+    display: flex;
+    &:hover {
+      border: 1px solid white;
+      cursor: pointer;
+    }
+    .card__data__image {
+      height: auto;
+      width: 100px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 3px;
+      margin-right: 10px;
+    }
+    .card__data__detailed {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
