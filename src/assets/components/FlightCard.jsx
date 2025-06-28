@@ -3,7 +3,6 @@ import "../styles/Card.css";
 import moment from "moment";
 
 const FlightCard = ({ flightData }) => {
-  console.log("Inside Card", flightData);
   return (
     <div className='card'>
       {flightData.map((item) => {
