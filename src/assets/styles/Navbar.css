@@ -17,6 +17,8 @@ li {
   justify-content: space-between;
   padding: 10px;
   .navbar__logo {
+    display: flex;
+    align-items: center;
     img {
       /* height: 87px; */
       width: 167px;

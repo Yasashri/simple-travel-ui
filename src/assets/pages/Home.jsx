@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Home.css";
-import { FlightCard } from "../components";
+import {
+  FlightCard,
+  HotelCard,
+  VehicleCard,
+  ServiceCards,
+} from "../components";
 import axios from "axios";
 import { URLS } from "../../config/constant";
-import HotelCard from "../components/HotelCard";
-import VehicleCard from "../components/VehicleCard";
 
 const Home = () => {
   const [flightData, setFlightData] = useState([]);
@@ -72,12 +75,19 @@ const Home = () => {
           <button onClick={searchData}>Search</button>
         </div>
       </div>
+      <div className='service'>
+        <ServiceCards />
+      </div>
       <div className='home__information'>
         <div className='home__information__flights'>
           <h2>
             Latest Flights (<a href='/'>See all</a>)
           </h2>
-          <FlightCard flightData={flightData} />
+          {flightData.length === 0 || flightData == [] ? (
+            <div className='placeholder'> No flight data found</div>
+          ) : (
+            <FlightCard flightData={flightData} />
+          )}
         </div>
         <div className='home__information__hotels'>
           <h2>

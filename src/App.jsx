@@ -1,6 +1,6 @@
 import "./assets/styles/App.css";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "./assets/pages";
+import { Home, Login, CreateUser } from "./assets/pages";
 import { Navbar, Footer } from "./assets/components";
 
 function App() {
@@ -9,8 +9,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/create-user' element={<CreateUser />}></Route>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
