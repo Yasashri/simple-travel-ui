@@ -1,6 +1,13 @@
 import "./assets/styles/App.css";
 import { Route, Routes } from "react-router-dom";
-import { Home, Login, CreateUser } from "./assets/pages";
+import {
+  Home,
+  Login,
+  CreateUser,
+  Hotels,
+  Flights,
+  Vehicles,
+} from "./assets/pages";
 import { Navbar, Footer } from "./assets/components";
 
 function App() {
@@ -11,6 +18,9 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />}></Route>
         <Route path='/create-user' element={<CreateUser />}></Route>
+        <Route path='/flights' element={<Flights />}></Route>
+        <Route path='/hotels' element={<Hotels />}></Route>
+        <Route path='/vehicles' element={<Vehicles />}></Route>
       </Routes>
       <Footer />
     </>
