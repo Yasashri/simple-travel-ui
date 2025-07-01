@@ -93,13 +93,21 @@ const Home = () => {
           <h2>
             Best Hotels (<a href='/'>See all</a>)
           </h2>
-          <HotelCard hotelData={hotelData} />
+          {hotelData.length === 0 || hotelData == [] ? (
+            <div className='placeholder'> No Hotels found</div>
+          ) : (
+            <HotelCard hotelData={hotelData} />
+          )}
         </div>
         <div className='home__information__vehicles'>
           <h2>
             Vehicles for Hire (<a href='/'>See all</a>)
           </h2>
-          <VehicleCard vehicleData={vehicleData} />
+          {vehicleData.length === 0 || vehicleData == [] ? (
+            <div className='placeholder'> No flight data found</div>
+          ) : (
+            <VehicleCard vehicleData={vehicleData} />
+          )}
         </div>
       </div>
     </div>

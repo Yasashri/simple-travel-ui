@@ -1,0 +1,145 @@
+/* Admin.css */
+
+.admin-container {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  background-color: #2c2f36;
+  color: #fff;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.admin-section {
+  margin-bottom: 40px;
+  background: #3b3f48;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.admin-section h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.add-btn {
+  background-color: #3f51b5;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #35449c;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #555;
+}
+
+th {
+  background-color: #444857;
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button.danger {
+  background-color: #e74c3c;
+  color: white;
+}
+
+button.update {
+  background-color: #ffca28;
+  color: #000;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #2c2f36;
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="file"],
+.modal-content input[type="date"],
+.modal-content input[type="time"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #444;
+  color: #fff;
+  box-sizing: border-box;
+}
+.modal-content input{
+  box-sizing: border-box;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-content small {
+  color: #f44336;
+  font-size: 0.9em;
+  display: block;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}

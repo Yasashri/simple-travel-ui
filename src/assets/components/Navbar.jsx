@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [userFirstName, setUserFirstName] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -11,6 +12,7 @@ const Navbar = () => {
         const user = JSON.parse(storedUser);
         console.log("user", user?.userFirstName);
         setUserFirstName(user?.userFirstName);
+        setIsAdmin(user?.userIsAdmin);
       } catch (error) {
         console.error("Failed to parse user from localStorage", error);
       }
@@ -38,11 +40,18 @@ const Navbar = () => {
           <li>
             <a href='/contact'>Contact</a>
           </li>
+          {isAdmin && (
+            <li>
+              <a href='/admin'>Admin area</a>
+            </li>
+          )}
         </ul>
         <div className='navbar__user'>
           {userFirstName ? (
             <ul>
-              <li onClick={() => navigate("/profile")}>{userFirstName}'s profile</li>
+              <li onClick={() => navigate("/profile")}>
+                {userFirstName}'s profile
+              </li>
             </ul>
           ) : (
             <ul>

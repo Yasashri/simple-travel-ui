@@ -6,6 +6,8 @@ export const URLS = {
   flightData: BASE_URL + "flights",
   HotelData: BASE_URL + "hotels",
   vehicleData: BASE_URL + "vehicles",
+  userData : BASE_URL + "user",
+
 };
 
 export const PATHS = {
