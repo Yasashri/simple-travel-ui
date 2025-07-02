@@ -7,6 +7,8 @@ export const URLS = {
   HotelData: BASE_URL + "hotels",
   vehicleData: BASE_URL + "vehicles",
   userData : BASE_URL + "user",
+  uploadImage: BASE_URL + "upload",
+  multiImageUpload : BASE_URL + "uploads",
 
 };
 

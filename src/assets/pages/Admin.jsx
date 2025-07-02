@@ -58,7 +58,9 @@ const Admin = () => {
       <h2>
         {title}
         {type !== "users" && (
-          <button className="add-btn" onClick={() => openModal(type, "add")}>➕</button>
+          <button className="add-btn" onClick={() => openModal(type, "add")}>
+            ➕
+          </button>
         )}
       </h2>
       <table>
@@ -74,7 +76,9 @@ const Admin = () => {
           {data.map((item) => (
             <tr key={item._id}>
               {keys.map((k) => (
-                <td key={k}>{Array.isArray(item[k]) ? item[k].join(", ") : item[k]}</td>
+                <td key={k}>
+                  {Array.isArray(item[k]) ? item[k].join(", ") : item[k]}
+                </td>
               ))}
               <td>
                 {type === "users" ? (
@@ -92,17 +96,28 @@ const Admin = () => {
 
   const formFields = {
     flights: [
-      "flightNo", "flightStart", "flightEnd", "flightModel",
-      "flightBasePrice", "flightDate", "flightTime"
+      "flightNo",
+      "flightStart",
+      "flightEnd",
+      "flightModel",
+      "flightBasePrice",
+      "flightDate",
+      "flightTime",
     ],
     hotels: [
-      "hotelName", "hotelDescription", "hotelLocation",
-      "hotelPrice", "hotelContact"
+      "hotelName",
+      "hotelDescription",
+      "hotelLocation",
+      "hotelPrice",
+      "hotelContact",
     ],
     vehicles: [
-      "vehicleNo", "vehicleDriver", "vehicleContact",
-      "vehicleModel", "vehicleBasePrice"
-    ]
+      "vehicleNo",
+      "vehicleDriver",
+      "vehicleContact",
+      "vehicleModel",
+      "vehicleBasePrice",
+    ],
   };
 
   const validationSchemas = {
@@ -128,7 +143,7 @@ const Admin = () => {
       vehicleContact: Yup.number().required(),
       vehicleModel: Yup.string().required(),
       vehicleBasePrice: Yup.number().required(),
-    })
+    }),
   };
 
   const formik = useFormik({
@@ -136,25 +151,54 @@ const Admin = () => {
     initialValues: selectedData || {},
     validationSchema: validationSchemas[modalType],
     onSubmit: async (values) => {
-      const url = `${URLS[modalType.slice(0, -1) + "Data"]}${modalMode === "edit" ? `/${selectedData._id}` : ""}`;
-      const formData = { ...values };
+      const url = `${URLS[modalType.slice(0, -1) + "Data"]}${
+        modalMode === "edit" ? `/${selectedData._id}` : ""
+      }`;
+
       try {
-        if (modalMode === "add") await axios.post(url, formData);
-        else await axios.put(url, formData);
+        // send JSON data with image URLs included in the values
+        if (modalMode === "add") await axios.post(url, values);
+        else await axios.put(url, values);
+
         fetchAllData();
         setModalOpen(false);
       } catch (err) {
         console.error(err);
       }
-    }
+    },
   });
 
-  const handleImageChange = (e) => {
+  // Upload image(s) to server immediately on selection,
+  // then set the returned URL(s) in Formik's values for later submission
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
-    if (modalType === "hotels") {
-      formik.setFieldValue("hotelImage", files.map(file => URL.createObjectURL(file)));
-    } else {
-      formik.setFieldValue(`${modalType.slice(0, -1)}Image`, URL.createObjectURL(files[0]));
+    if (files.length === 0) return;
+
+    try {
+      if (modalType === "hotels" && files.length > 1) {
+        const uploadedUrls = [];
+        for (const file of files) {
+          const formData = new FormData();
+          formData.append("images", file);
+          const res = await axios.post(URLS.multiImageUpload, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+          uploadedUrls.push(res.data.imageUrl);
+        }
+        formik.setFieldValue("hotelImage", uploadedUrls);
+      } else {
+        const formData = new FormData();
+        formData.append("image", files[0]);
+        const res = await axios.post(URLS.uploadImage, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        formik.setFieldValue(
+          `${modalType.slice(0, -1)}Image`,
+          res.data.imageUrl
+        );
+      }
+    } catch (error) {
+      console.error("Image upload failed:", error);
     }
   };
 
@@ -172,33 +216,69 @@ const Admin = () => {
   return (
     <div className="admin-container">
       <h1>Admin Dashboard</h1>
-      <Section title="Users" data={users} type="users" keys={["userFirstName", "userLastName", "userEmail", "userIsAdmin"]} />
-      <Section title="Flights" data={flights} type="flights" keys={["flightNo", "flightStart", "flightEnd", "flightDate", "flightTime", "flightBasePrice"]} />
-      <Section title="Hotels" data={hotels} type="hotels" keys={["hotelName", "hotelLocation", "hotelPrice", "hotelContact"]} />
-      <Section title="Vehicles" data={vehicles} type="vehicles" keys={["vehicleNo", "vehicleDriver", "vehicleContact", "vehicleBasePrice"]} />
+      <Section
+        title="Users"
+        data={users}
+        type="users"
+        keys={["userFirstName", "userLastName", "userEmail", "userIsAdmin"]}
+      />
+      <Section
+        title="Flights"
+        data={flights}
+        type="flights"
+        keys={[
+          "flightNo",
+          "flightStart",
+          "flightEnd",
+          "flightDate",
+          "flightTime",
+          "flightBasePrice",
+        ]}
+      />
+      <Section
+        title="Hotels"
+        data={hotels}
+        type="hotels"
+        keys={["hotelName", "hotelLocation", "hotelPrice", "hotelContact"]}
+      />
+      <Section
+        title="Vehicles"
+        data={vehicles}
+        type="vehicles"
+        keys={[
+          "vehicleNo",
+          "vehicleDriver",
+          "vehicleContact",
+          "vehicleBasePrice",
+        ]}
+      />
 
       {userBookings && (
-        <div style={{
-          position: "fixed",
-          top: "0",
-          left: "0",
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "rgba(0,0,0,0.6)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 1000
-        }}>
-          <div style={{
-            background: "#fff",
-            padding: "20px",
-            borderRadius: "8px",
-            maxWidth: "600px",
-            width: "90%",
-            maxHeight: "80vh",
-            overflowY: "auto"
-          }}>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "20px",
+              borderRadius: "8px",
+              maxWidth: "600px",
+              width: "90%",
+              maxHeight: "80vh",
+              overflowY: "auto",
+            }}
+          >
             <h3>User Bookings</h3>
             <pre>{JSON.stringify(userBookings, null, 2)}</pre>
             <button onClick={() => setUserBookings(null)}>Close</button>
@@ -228,8 +308,14 @@ const Admin = () => {
             />
             <div className="modal-buttons">
               <button type="submit">{modalMode === "add" ? "Add" : "Update"}</button>
-              {modalMode === "edit" && <button type="button" onClick={handleDelete} className="danger">Delete</button>}
-              <button type="button" onClick={() => setModalOpen(false)}>Cancel</button>
+              {modalMode === "edit" && (
+                <button type="button" onClick={handleDelete} className="danger">
+                  Delete
+                </button>
+              )}
+              <button type="button" onClick={() => setModalOpen(false)}>
+                Cancel
+              </button>
             </div>
           </form>
         </div>
