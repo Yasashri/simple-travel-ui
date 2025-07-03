@@ -1,23 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Card.css";
 import moment from "moment";
 import { sendBooking } from "../services/bookingService";
+import Swal from "sweetalert2";
 
 const FlightCard = ({ flightData }) => {
   const [visibility, setVisibility] = useState(false);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [flightClass, setFlightClass] = useState("economy");
   const [seatCount, setSeatCount] = useState(1);
-
-  // 👇 NEW state for dates
+  const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
 
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardName, setCardName] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvv, setCvv] = useState('');
+
+  useEffect(() => {
+    console.log("flightData", flightData);
+    console.log("selectedFlight", selectedFlight);
+  });
+
   const cardClick = (flight) => {
     setSelectedFlight(flight);
+    setDestination(flight.flightEnd);
     setVisibility(true);
-    setDepartureDate(moment(flight.flightDate).format("YYYY-MM-DD")); // default to flight date
-    setReturnDate(""); // clear previous return date
+    setDepartureDate(moment(flight.flightDate).format("YYYY-MM-DD"));
+    setReturnDate("");
   };
 
   const closeModal = () => {
@@ -27,6 +39,11 @@ const FlightCard = ({ flightData }) => {
     setSeatCount(1);
     setDepartureDate("");
     setReturnDate("");
+    setShowPaymentModal(false);
+    setCardNumber('');
+    setCardName('');
+    setExpiry('');
+    setCvv('');
   };
 
   const getClassPrice = () => {
@@ -45,37 +62,55 @@ const FlightCard = ({ flightData }) => {
   const pricePerSeat = getClassPrice();
   const totalPrice = pricePerSeat * seatCount;
 
-  const handleBooking = async () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const user_id = user._id;
-    if (!departureDate) return alert("Please select a departure date");
+  const handleBooking = () => {
+    if (!departureDate) {
+      return Swal.fire({
+        title: "Departure date?",
+        text: "Don't you need date to fly?",
+        icon: "question",
+      });
+    }
 
     if (returnDate && moment(returnDate).isBefore(departureDate)) {
       return alert("Return date cannot be before departure date");
     }
 
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Proceed to payment for flight to ${destination}?`,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Proceed",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setShowPaymentModal(true);
+      }
+    });
+  };
+
+  const submitPayment = () => {
+    if (cardNumber.length < 13 || !cardName || !expiry.match(/^\d{2}\/\d{2}$/) || cvv.length < 3) {
+      return Swal.fire("Invalid Card", "Please fill out all card details properly.", "error");
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
     const bookingData = {
-      bookedUserId: user_id,
+      bookedUserId: user._id,
       bookedFlightId: selectedFlight._id,
       flightNoOfSeats: seatCount,
       flightClass: flightClass,
       flightDate: departureDate,
       flightReturn: returnDate,
       flightTime: moment(selectedFlight.flightDate).format("HH:mm"),
-      flightTotalPrice: pricePerSeat * seatCount,
-
-      // Optionally include return date if selected
+      flightTotalPrice: totalPrice,
       returnDate: returnDate || null,
     };
 
-    try {
-      await sendBooking(bookingData);
-      alert("Booking successful!");
-      closeModal();
-    } catch (error) {
-      console.error("Booking failed:", error);
-      alert("Failed to book flight.");
-    }
+    sendBooking(bookingData);
+    setShowPaymentModal(false);
+    closeModal();
+
+    Swal.fire("Payment Successful", `Your flight to ${destination} has been booked.`, "success");
   };
 
   return (
@@ -102,13 +137,11 @@ const FlightCard = ({ flightData }) => {
         </div>
       ))}
 
-      {/* 👇 Modal */}
+      {/* Booking Modal */}
       {visibility && selectedFlight && (
         <div className='modal-overlay'>
           <div className='modal'>
-            <button className='modal-close' onClick={closeModal}>
-              ×
-            </button>
+            <button className='modal-close' onClick={closeModal}>×</button>
             <h2>Book Flight: {selectedFlight.flightNo}</h2>
             <span>{selectedFlight.flightModel}</span>
             <p>
@@ -116,7 +149,6 @@ const FlightCard = ({ flightData }) => {
               To: {selectedFlight.flightEnd}
             </p>
 
-            {/* 👇 Departure Date */}
             <label>
               Departure Date:
               <input
@@ -127,7 +159,6 @@ const FlightCard = ({ flightData }) => {
               />
             </label>
 
-            {/* 👇 Return Date */}
             <label>
               Return Date (optional):
               <input
@@ -138,20 +169,15 @@ const FlightCard = ({ flightData }) => {
               />
             </label>
 
-            {/* Class selection */}
             <label>
               Select Class:
-              <select
-                value={flightClass}
-                onChange={(e) => setFlightClass(e.target.value)}
-              >
+              <select value={flightClass} onChange={(e) => setFlightClass(e.target.value)}>
                 <option value='economy'>Economy</option>
                 <option value='business'>Business (+300)</option>
                 <option value='luxury'>Luxury (+800)</option>
               </select>
             </label>
 
-            {/* Seat selection */}
             <label>
               Number of Seats:
               <input
@@ -163,7 +189,6 @@ const FlightCard = ({ flightData }) => {
               />
             </label>
 
-            {/* Price Display */}
             <p>
               Price per Seat: ${pricePerSeat} <br />
               Total Price: ${totalPrice}
@@ -171,6 +196,52 @@ const FlightCard = ({ flightData }) => {
 
             <button className='book-now' onClick={handleBooking}>
               Book Now
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <div className='modal-overlay'>
+          <div className='modal card-form'>
+            <button className='modal-close' onClick={() => setShowPaymentModal(false)}>×</button>
+            <h2>Enter Payment Details</h2>
+
+            <label>Card Number</label>
+            <input
+              type='text'
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').slice(0, 16))}
+              placeholder='1234 5678 9012 3456'
+            />
+
+            <label>Cardholder Name</label>
+            <input
+              type='text'
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
+              placeholder='John Doe'
+            />
+
+            <label>Expiry (MM/YY)</label>
+            <input
+              type='text'
+              value={expiry}
+              onChange={(e) => setExpiry(e.target.value.replace(/[^\d/]/g, '').slice(0, 5))}
+              placeholder='MM/YY'
+            />
+
+            <label>CVV</label>
+            <input
+              type='text'
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              placeholder='123'
+            />
+
+            <button className='book-now' onClick={submitPayment}>
+              Pay ${totalPrice}
             </button>
           </div>
         </div>
