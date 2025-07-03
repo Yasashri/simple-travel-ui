@@ -9,6 +9,7 @@ export const URLS = {
   userData : BASE_URL + "user",
   uploadImage: BASE_URL + "upload",
   multiImageUpload : BASE_URL + "uploads",
+  userBookings : BASE_URL + "bookings",
 
 };
 

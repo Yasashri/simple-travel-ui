@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Card.css";
 import moment from "moment";
+import { sendBooking } from "../services/bookingService";
 
 const FlightCard = ({ flightData }) => {
   const [visibility, setVisibility] = useState(false);
@@ -8,14 +9,24 @@ const FlightCard = ({ flightData }) => {
   const [flightClass, setFlightClass] = useState("economy");
   const [seatCount, setSeatCount] = useState(1);
 
+  // 👇 NEW state for dates
+  const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+
   const cardClick = (flight) => {
     setSelectedFlight(flight);
     setVisibility(true);
+    setDepartureDate(moment(flight.flightDate).format("YYYY-MM-DD")); // default to flight date
+    setReturnDate(""); // clear previous return date
   };
 
   const closeModal = () => {
     setVisibility(false);
     setSelectedFlight(null);
+    setFlightClass("economy");
+    setSeatCount(1);
+    setDepartureDate("");
+    setReturnDate("");
   };
 
   const getClassPrice = () => {
@@ -33,6 +44,39 @@ const FlightCard = ({ flightData }) => {
 
   const pricePerSeat = getClassPrice();
   const totalPrice = pricePerSeat * seatCount;
+
+  const handleBooking = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const user_id = user._id;
+    if (!departureDate) return alert("Please select a departure date");
+
+    if (returnDate && moment(returnDate).isBefore(departureDate)) {
+      return alert("Return date cannot be before departure date");
+    }
+
+    const bookingData = {
+      bookedUserId: user_id,
+      bookedFlightId: selectedFlight._id,
+      flightNoOfSeats: seatCount,
+      flightClass: flightClass,
+      flightDate: departureDate,
+      flightReturn: returnDate,
+      flightTime: moment(selectedFlight.flightDate).format("HH:mm"),
+      flightTotalPrice: pricePerSeat * seatCount,
+
+      // Optionally include return date if selected
+      returnDate: returnDate || null,
+    };
+
+    try {
+      await sendBooking(bookingData);
+      alert("Booking successful!");
+      closeModal();
+    } catch (error) {
+      console.error("Booking failed:", error);
+      alert("Failed to book flight.");
+    }
+  };
 
   return (
     <div className='card'>
@@ -57,6 +101,8 @@ const FlightCard = ({ flightData }) => {
           </div>
         </div>
       ))}
+
+      {/* 👇 Modal */}
       {visibility && selectedFlight && (
         <div className='modal-overlay'>
           <div className='modal'>
@@ -67,10 +113,31 @@ const FlightCard = ({ flightData }) => {
             <span>{selectedFlight.flightModel}</span>
             <p>
               From: {selectedFlight.flightStart} <br />
-              To: {selectedFlight.flightEnd} <br />
-              Date & Time:{" "}
-              {moment(selectedFlight.flightDate).format("YYYY-MM-DD HH:mm")}
+              To: {selectedFlight.flightEnd}
             </p>
+
+            {/* 👇 Departure Date */}
+            <label>
+              Departure Date:
+              <input
+                type='date'
+                value={departureDate}
+                min={moment().format("YYYY-MM-DD")}
+                onChange={(e) => setDepartureDate(e.target.value)}
+              />
+            </label>
+
+            {/* 👇 Return Date */}
+            <label>
+              Return Date (optional):
+              <input
+                type='date'
+                value={returnDate}
+                min={departureDate || moment().format("YYYY-MM-DD")}
+                onChange={(e) => setReturnDate(e.target.value)}
+              />
+            </label>
+
             {/* Class selection */}
             <label>
               Select Class:
@@ -101,7 +168,10 @@ const FlightCard = ({ flightData }) => {
               Price per Seat: ${pricePerSeat} <br />
               Total Price: ${totalPrice}
             </p>
-            <button className='book-now'>Book Now</button>
+
+            <button className='book-now' onClick={handleBooking}>
+              Book Now
+            </button>
           </div>
         </div>
       )}

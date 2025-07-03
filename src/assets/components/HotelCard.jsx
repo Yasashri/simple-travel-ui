@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "../styles/Card.css";
+import { sendBooking } from "../services/bookingService";
 
 const HotelCard = ({ hotelData }) => {
   const [visibility, setVisibility] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [roomType, setRoomType] = useState("standard");
   const [stayDays, setStayDays] = useState(1);
+  const [hotelStartDate, setHotelStartDate] = useState("");
 
   const cardClick = (hotel) => {
     setSelectedHotel(hotel);
@@ -17,6 +19,7 @@ const HotelCard = ({ hotelData }) => {
     setSelectedHotel(null);
     setRoomType("standard");
     setStayDays(1);
+    setHotelStartDate("");
   };
 
   const getRoomPrice = () => {
@@ -34,6 +37,29 @@ const HotelCard = ({ hotelData }) => {
 
   const pricePerDay = getRoomPrice();
   const totalPrice = pricePerDay * stayDays;
+
+  const handleBooking = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const user_id = user._id;
+    if (!hotelStartDate) return alert("Please select a start date");
+
+    const bookingData = {
+      bookedUserId: user_id,
+      bookedHotelId: selectedHotel._id,
+      hotelDate: hotelStartDate,
+      hotelDays: stayDays,
+      hotelTotalPrice: totalPrice,
+    };
+
+    try {
+      sendBooking(bookingData);
+      alert("Hotel booking successful!");
+      closeModal();
+    } catch (error) {
+      console.error("Booking failed:", error);
+      alert("Failed to book hotel.");
+    }
+  };
 
   return (
     <div className='card'>
@@ -77,7 +103,7 @@ const HotelCard = ({ hotelData }) => {
               </select>
             </label>
 
-            {/* Stay Duration Selection */}
+            {/* Stay Duration */}
             <label>
               Number of Days:
               <input
@@ -89,12 +115,26 @@ const HotelCard = ({ hotelData }) => {
               />
             </label>
 
+            {/* Start Date */}
+            <label>
+              Start Date:
+              <input
+                type='date'
+                value={hotelStartDate}
+                min={new Date().toISOString().split("T")[0]}
+                onChange={(e) => setHotelStartDate(e.target.value)}
+              />
+            </label>
+
             {/* Price Display */}
             <p>
               Price per Day: ${pricePerDay} <br />
               Total Price: ${totalPrice}
             </p>
-            <button className='book-now'>Book Now</button>
+
+            <button className='book-now' onClick={handleBooking}>
+              Book Now
+            </button>
           </div>
         </div>
       )}

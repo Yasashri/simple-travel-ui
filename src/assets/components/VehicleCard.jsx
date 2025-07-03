@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "../styles/Card.css";
+import { sendBooking } from "../services/bookingService"; // Ensure path is correct
 
 const VehicleCard = ({ vehicleData }) => {
   const [visibility, setVisibility] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [travelDistance, setTravelDistance] = useState(1);
+  const [vehicleDate, setVehicleDate] = useState("");
+  const [vehicleTime, setVehicleTime] = useState("");
 
   const cardClick = (vehicle) => {
     setSelectedVehicle(vehicle);
@@ -15,10 +18,38 @@ const VehicleCard = ({ vehicleData }) => {
     setVisibility(false);
     setSelectedVehicle(null);
     setTravelDistance(1);
+    setVehicleDate("");
+    setVehicleTime("");
   };
 
   const pricePerKm = selectedVehicle?.vehicleBasePrice || 0;
   const totalPrice = pricePerKm * travelDistance;
+
+  const handleBooking = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const user_id = user?._id;
+
+    if (!vehicleDate || !vehicleTime) {
+      return alert("Please select both date and time");
+    }
+
+    const bookingData = {
+      bookedUserId: user_id,
+      bookedVehicleId: selectedVehicle._id,
+      vehicleBookedDate: vehicleDate,
+      vehicleBookedTime: vehicleTime,
+      vehicleBookedTotalPrice: totalPrice,
+    };
+
+    try {
+      await sendBooking(bookingData);
+      alert("Vehicle booking successful!");
+      closeModal();
+    } catch (error) {
+      console.error("Booking failed:", error);
+      alert("Failed to book vehicle.");
+    }
+  };
 
   return (
     <div className='card'>
@@ -46,12 +77,12 @@ const VehicleCard = ({ vehicleData }) => {
             <button className='modal-close' onClick={closeModal}>
               ×
             </button>
-            <h2>Book Vehicle: {selectedVehicle.VehicleNo}</h2>
+            <h2>Book Vehicle: {selectedVehicle.vehicleNo}</h2>
             <p>Model: {selectedVehicle.vehicleModel}</p>
             <p>Driver: {selectedVehicle.vehicleDriver}</p>
             <p>Contact: +{selectedVehicle.vehicleContact}</p>
 
-            {/* Travel Distance Selection */}
+            {/* Travel Distance */}
             <label>
               Distance to Travel (km):
               <input
@@ -63,12 +94,36 @@ const VehicleCard = ({ vehicleData }) => {
               />
             </label>
 
+            {/* Date Selector */}
+            <label>
+              Booking Date:
+              <input
+                type='date'
+                value={vehicleDate}
+                min={new Date().toISOString().split("T")[0]}
+                onChange={(e) => setVehicleDate(e.target.value)}
+              />
+            </label>
+
+            {/* Time Selector */}
+            <label>
+              Booking Time:
+              <input
+                type='time'
+                value={vehicleTime}
+                onChange={(e) => setVehicleTime(e.target.value)}
+              />
+            </label>
+
             {/* Price Display */}
             <p>
               Price per km: ${pricePerKm} <br />
               Total Price: ${totalPrice}
             </p>
-            <button className='book-now'>Book Now</button>
+
+            <button className='book-now' onClick={handleBooking}>
+              Book Now
+            </button>
           </div>
         </div>
       )}
