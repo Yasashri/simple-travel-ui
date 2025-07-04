@@ -26,7 +26,7 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(response.data.user));
       setFailed(false);
       setLoginSuccess(true);
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => window.location.href = "/", 2000);
     } catch (err) {
       console.error("Login failed", err);
       setFailed(true);
@@ -66,7 +66,11 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              {failed && <div className="login__error"><span>Username or Password incorrect</span></div>}
+              {failed && (
+                <div className='login__error'>
+                  <span>Username or Password incorrect</span>
+                </div>
+              )}
               <button type='submit' className='login__button'>
                 Login
               </button>

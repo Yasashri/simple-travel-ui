@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Card.css";
 import { sendBooking } from "../services/bookingService";
+import Swal from "sweetalert2";
 
 const HotelCard = ({ hotelData }) => {
   const [visibility, setVisibility] = useState(false);

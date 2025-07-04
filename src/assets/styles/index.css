@@ -40,3 +40,10 @@ body::before {
   z-index: -1; /* ✅ Behind content but above background */
   pointer-events: none; /* ✅ Ensures overlay doesn't block clicks */
 }
+
+.swal2-footer{
+  li, a{
+    color: black;
+  }
+  
+}

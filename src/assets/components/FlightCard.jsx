@@ -14,10 +14,10 @@ const FlightCard = ({ flightData }) => {
   const [returnDate, setReturnDate] = useState("");
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvv, setCvv] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
 
   useEffect(() => {
     console.log("flightData", flightData);
@@ -40,10 +40,10 @@ const FlightCard = ({ flightData }) => {
     setDepartureDate("");
     setReturnDate("");
     setShowPaymentModal(false);
-    setCardNumber('');
-    setCardName('');
-    setExpiry('');
-    setCvv('');
+    setCardNumber("");
+    setCardName("");
+    setExpiry("");
+    setCvv("");
   };
 
   const getClassPrice = () => {
@@ -63,6 +63,16 @@ const FlightCard = ({ flightData }) => {
   const totalPrice = pricePerSeat * seatCount;
 
   const handleBooking = () => {
+     const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      return Swal.fire({
+        icon: "info",
+        title: "You are not logged in.",
+        text: "You must be logged in to make a booking.",
+        footer: '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+      });
+    }
+
     if (!departureDate) {
       return Swal.fire({
         title: "Departure date?",
@@ -72,7 +82,7 @@ const FlightCard = ({ flightData }) => {
     }
 
     if (returnDate && moment(returnDate).isBefore(departureDate)) {
-      return alert("Return date cannot be before departure date");
+      return Swal.fire("Return date cannot be before departure date!");
     }
 
     Swal.fire({
@@ -89,11 +99,28 @@ const FlightCard = ({ flightData }) => {
   };
 
   const submitPayment = () => {
-    if (cardNumber.length < 13 || !cardName || !expiry.match(/^\d{2}\/\d{2}$/) || cvv.length < 3) {
-      return Swal.fire("Invalid Card", "Please fill out all card details properly.", "error");
+    if (
+      cardNumber.length < 13 ||
+      !cardName ||
+      !expiry.match(/^\d{2}\/\d{2}$/) ||
+      cvv.length < 3
+    ) {
+      return Swal.fire(
+        "Invalid Card",
+        "Please fill out all card details properly.",
+        "error"
+      );
     }
 
     const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      return Swal.fire({
+        icon: "info",
+        title: "You are not logged in.",
+        text: "You must be logged in to make a booking.",
+        footer: '<a href=/login">Go to login?</a>',
+      });
+    }
     const bookingData = {
       bookedUserId: user._id,
       bookedFlightId: selectedFlight._id,
@@ -110,7 +137,11 @@ const FlightCard = ({ flightData }) => {
     setShowPaymentModal(false);
     closeModal();
 
-    Swal.fire("Payment Successful", `Your flight to ${destination} has been booked.`, "success");
+    Swal.fire(
+      "Payment Successful",
+      `Your flight to ${destination} has been booked.`,
+      "success"
+    );
   };
 
   return (
@@ -141,7 +172,9 @@ const FlightCard = ({ flightData }) => {
       {visibility && selectedFlight && (
         <div className='modal-overlay'>
           <div className='modal'>
-            <button className='modal-close' onClick={closeModal}>×</button>
+            <button className='modal-close' onClick={closeModal}>
+              ×
+            </button>
             <h2>Book Flight: {selectedFlight.flightNo}</h2>
             <span>{selectedFlight.flightModel}</span>
             <p>
@@ -171,7 +204,10 @@ const FlightCard = ({ flightData }) => {
 
             <label>
               Select Class:
-              <select value={flightClass} onChange={(e) => setFlightClass(e.target.value)}>
+              <select
+                value={flightClass}
+                onChange={(e) => setFlightClass(e.target.value)}
+              >
                 <option value='economy'>Economy</option>
                 <option value='business'>Business (+300)</option>
                 <option value='luxury'>Luxury (+800)</option>
@@ -205,14 +241,21 @@ const FlightCard = ({ flightData }) => {
       {showPaymentModal && (
         <div className='modal-overlay'>
           <div className='modal card-form'>
-            <button className='modal-close' onClick={() => setShowPaymentModal(false)}>×</button>
+            <button
+              className='modal-close'
+              onClick={() => setShowPaymentModal(false)}
+            >
+              ×
+            </button>
             <h2>Enter Payment Details</h2>
 
             <label>Card Number</label>
             <input
               type='text'
               value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').slice(0, 16))}
+              onChange={(e) =>
+                setCardNumber(e.target.value.replace(/\D/g, "").slice(0, 16))
+              }
               placeholder='1234 5678 9012 3456'
             />
 
@@ -228,7 +271,9 @@ const FlightCard = ({ flightData }) => {
             <input
               type='text'
               value={expiry}
-              onChange={(e) => setExpiry(e.target.value.replace(/[^\d/]/g, '').slice(0, 5))}
+              onChange={(e) =>
+                setExpiry(e.target.value.replace(/[^\d/]/g, "").slice(0, 5))
+              }
               placeholder='MM/YY'
             />
 
@@ -236,7 +281,9 @@ const FlightCard = ({ flightData }) => {
             <input
               type='text'
               value={cvv}
-              onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              onChange={(e) =>
+                setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))
+              }
               placeholder='123'
             />
 

@@ -14,6 +14,8 @@ const Home = () => {
   const [hotelData, setHotelData] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const [searchQuery, setsearchQuery] = useState("");
+
+
   useEffect(() => {
     const getHomeData = async () => {
       try {
