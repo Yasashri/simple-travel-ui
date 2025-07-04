@@ -41,6 +41,14 @@ const HotelCard = ({ hotelData }) => {
 
   const handleBooking = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+          return Swal.fire({
+            icon: "info",
+            title: "You are not logged in.",
+            text: "You must be logged in to make a booking.",
+            footer: '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+          });
+        }
     const user_id = user._id;
     if (!hotelStartDate) return alert("Please select a start date");
 

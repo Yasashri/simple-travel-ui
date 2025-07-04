@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Card.css";
-import { sendBooking } from "../services/bookingService"; // Ensure path is correct
+import { sendBooking } from "../services/bookingService";
+import Swal from "sweetalert2";
 
 const VehicleCard = ({ vehicleData }) => {
   const [visibility, setVisibility] = useState(false);
@@ -27,6 +28,14 @@ const VehicleCard = ({ vehicleData }) => {
 
   const handleBooking = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+          return Swal.fire({
+            icon: "info",
+            title: "You are not logged in.",
+            text: "You must be logged in to make a booking.",
+            footer: '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+          });
+        }
     const user_id = user?._id;
 
     if (!vehicleDate || !vehicleTime) {
