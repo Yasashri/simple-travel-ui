@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "../styles/Admin.css";
+import "../styles/Admin.module.css";
 import { URLS } from "../../config/constant";
 
 const Admin = () => {
@@ -25,7 +25,7 @@ const Admin = () => {
       const [userRes, flightRes, hotelRes, vehicleRes] = await Promise.all([
         axios.get(URLS.userData),
         axios.get(URLS.flightData),
-        axios.get(URLS.HotelData),
+        axios.get(URLS.hotelData),
         axios.get(URLS.vehicleData),
       ]);
       setUsers(userRes.data);
@@ -54,11 +54,11 @@ const Admin = () => {
   };
 
   const Section = ({ title, data, type, keys }) => (
-    <div className="admin-section">
+    <div className='admin-section'>
       <h2>
         {title}
         {type !== "users" && (
-          <button className="add-btn" onClick={() => openModal(type, "add")}>
+          <button className='add-btn' onClick={() => openModal(type, "add")}>
             ➕
           </button>
         )}
@@ -82,9 +82,13 @@ const Admin = () => {
               ))}
               <td>
                 {type === "users" ? (
-                  <button onClick={() => viewUserBookings(item._id)}>👁 View</button>
+                  <button onClick={() => viewUserBookings(item._id)}>
+                    👁 View
+                  </button>
                 ) : (
-                  <button onClick={() => openModal(type, "edit", item)}>✏️</button>
+                  <button onClick={() => openModal(type, "edit", item)}>
+                    ✏️
+                  </button>
                 )}
               </td>
             </tr>
@@ -203,7 +207,9 @@ const Admin = () => {
   };
 
   const handleDelete = async () => {
+    console.log("modalType", modalType);
     const url = `${URLS[modalType.slice(0, -1) + "Data"]}/${selectedData._id}`;
+    console.log("url", url);
     try {
       await axios.delete(url);
       fetchAllData();
@@ -214,18 +220,18 @@ const Admin = () => {
   };
 
   return (
-    <div className="admin-container">
-      <h1>Admin Dashboard</h1>
+    <div className='admin-container'>
+      <h1 className='admin-heading'>Admin Dashboard</h1>
       <Section
-        title="Users"
+        title='Users'
         data={users}
-        type="users"
+        type='users'
         keys={["userFirstName", "userLastName", "userEmail", "userIsAdmin"]}
       />
       <Section
-        title="Flights"
+        title='Flights'
         data={flights}
-        type="flights"
+        type='flights'
         keys={[
           "flightNo",
           "flightStart",
@@ -236,15 +242,15 @@ const Admin = () => {
         ]}
       />
       <Section
-        title="Hotels"
+        title='Hotels'
         data={hotels}
-        type="hotels"
+        type='hotels'
         keys={["hotelName", "hotelLocation", "hotelPrice", "hotelContact"]}
       />
       <Section
-        title="Vehicles"
+        title='Vehicles'
         data={vehicles}
-        type="vehicles"
+        type='vehicles'
         keys={[
           "vehicleNo",
           "vehicleDriver",
@@ -287,11 +293,13 @@ const Admin = () => {
       )}
 
       {modalOpen && (
-        <div className="modal-backdrop">
-          <form onSubmit={formik.handleSubmit} className="modal-content">
-            <h3>{modalMode === "add" ? `Add ${modalType}` : `Edit ${modalType}`}</h3>
+        <div className='modal-backdrop'>
+          <form onSubmit={formik.handleSubmit} className='modal-content'>
+            <h3>
+              {modalMode === "add" ? `Add ${modalType}` : `Edit ${modalType}`}
+            </h3>
             {formFields[modalType]?.map((field) => (
-              <div key={field} className="modal-input">
+              <div key={field} className='modal-input'>
                 <input
                   name={field}
                   placeholder={field}
@@ -302,18 +310,20 @@ const Admin = () => {
               </div>
             ))}
             <input
-              type="file"
+              type='file'
               multiple={modalType === "hotels"}
               onChange={handleImageChange}
             />
-            <div className="modal-buttons">
-              <button type="submit">{modalMode === "add" ? "Add" : "Update"}</button>
+            <div className='modal-buttons'>
+              <button type='submit'>
+                {modalMode === "add" ? "Add" : "Update"}
+              </button>
               {modalMode === "edit" && (
-                <button type="button" onClick={handleDelete} className="danger">
+                <button type='button' onClick={handleDelete} className='danger'>
                   Delete
                 </button>
               )}
-              <button type="button" onClick={() => setModalOpen(false)}>
+              <button type='button' onClick={() => setModalOpen(false)}>
                 Cancel
               </button>
             </div>

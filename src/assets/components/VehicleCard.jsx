@@ -29,17 +29,18 @@ const VehicleCard = ({ vehicleData }) => {
   const handleBooking = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-          return Swal.fire({
-            icon: "info",
-            title: "You are not logged in.",
-            text: "You must be logged in to make a booking.",
-            footer: '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
-          });
-        }
+      return Swal.fire({
+        icon: "info",
+        title: "You are not logged in.",
+        text: "You must be logged in to make a booking.",
+        footer:
+          '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+      });
+    }
     const user_id = user?._id;
 
     if (!vehicleDate || !vehicleTime) {
-      return alert("Please select both date and time");
+      return Swal.fire("Please select date and time");
     }
 
     const bookingData = {
@@ -51,8 +52,18 @@ const VehicleCard = ({ vehicleData }) => {
     };
 
     try {
-      await sendBooking(bookingData);
-      alert("Vehicle booking successful!");
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Payments will be done in person",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Book",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sendBooking(bookingData);
+        }
+      });
+
       closeModal();
     } catch (error) {
       console.error("Booking failed:", error);

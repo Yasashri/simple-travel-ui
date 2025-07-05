@@ -8,13 +8,13 @@ import {
 } from "../components";
 import axios from "axios";
 import { URLS } from "../../config/constant";
+import Swal from "sweetalert2";
 
 const Home = () => {
   const [flightData, setFlightData] = useState([]);
   const [hotelData, setHotelData] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const [searchQuery, setsearchQuery] = useState("");
-
 
   useEffect(() => {
     const getHomeData = async () => {
@@ -45,11 +45,21 @@ const Home = () => {
         const response = await axios.post(URLS.searchHomeData, search);
         console.log(response.data);
         setFlightData(response.data.flights);
+        setHotelData(response.data.hotels);
+        setVehicleData(response.data.vehicles);
       } catch (error) {
         console.error("Search error", error);
       }
     } else {
-      alert("Please enter search information");
+      Swal.fire({
+        icon: "warning",
+        text: "Please enter search text",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
+      });
     }
   };
   return (
@@ -82,33 +92,43 @@ const Home = () => {
       </div>
       <div className='home__information'>
         <div className='home__information__flights'>
-          <h2>
-            Latest Flights (<a href='/'>See all</a>)
-          </h2>
           {flightData.length === 0 || flightData == [] ? (
-            <div className='placeholder'> No flight data found</div>
+            <div className='placeholder'>
+              No matching search results for flights
+            </div>
           ) : (
-            <FlightCard flightData={flightData} />
+            <>
+              <h2>
+                Latest Flights (<a href='/'>See all</a>)
+              </h2>
+              <FlightCard flightData={flightData} />
+            </>
           )}
         </div>
         <div className='home__information__hotels'>
-          <h2>
-            Best Hotels (<a href='/'>See all</a>)
-          </h2>
           {hotelData.length === 0 || hotelData == [] ? (
-            <div className='placeholder'> No Hotels found</div>
+            <div className='placeholder'>
+              No matching search results for hotels
+            </div>
           ) : (
-            <HotelCard hotelData={hotelData} />
+            <>
+              <h2>
+                Best Hotels (<a href='/'>See all</a>)
+              </h2>
+              <HotelCard hotelData={hotelData} />
+            </>
           )}
         </div>
         <div className='home__information__vehicles'>
-          <h2>
-            Vehicles for Hire (<a href='/'>See all</a>)
-          </h2>
           {vehicleData.length === 0 || vehicleData == [] ? (
-            <div className='placeholder'> No flight data found</div>
+            <div className='placeholder'>
+              No matching search results for vehicles
+            </div>
           ) : (
-            <VehicleCard vehicleData={vehicleData} />
+            <>
+              <h2>Available vehicles</h2>
+              <VehicleCard vehicleData={vehicleData} />
+            </>
           )}
         </div>
       </div>

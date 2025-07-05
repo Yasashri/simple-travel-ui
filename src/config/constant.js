@@ -4,7 +4,7 @@ export const URLS = {
   searchHomeData: BASE_URL + "search",
   userLogin: BASE_URL + "user/login",
   flightData: BASE_URL + "flights",
-  HotelData: BASE_URL + "hotels",
+  hotelData: BASE_URL + "hotels",
   vehicleData: BASE_URL + "vehicles",
   userData : BASE_URL + "user",
   uploadImage: BASE_URL + "upload",

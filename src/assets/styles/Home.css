@@ -2,6 +2,7 @@
   padding: 10px;
   .home__header {
     .home_header_title {
+      text-align: left !important;
       font-weight: 500;
     }
   }
@@ -44,9 +45,9 @@
       }
     }
   }
-  .home__information{
-    .home__information__flights{
-      .placeholder{
+  .home__information {
+    .home__information__flights {
+      .placeholder {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -54,12 +55,13 @@
         opacity: 0.5;
         border-radius: 5px;
         color: white;
-        height: 200px;
+        height: 75px;
         width: 100%;
+        margin-bottom: 20px;
       }
     }
-    .home__information__hotels{
-      .placeholder{
+    .home__information__hotels {
+      .placeholder {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -67,12 +69,13 @@
         opacity: 0.5;
         border-radius: 5px;
         color: white;
-        height: 200px;
+        height: 75px;
         width: 100%;
+        margin-bottom: 20px;
       }
     }
-    .home__information__vehicles{
-      .placeholder{
+    .home__information__vehicles {
+      .placeholder {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -80,7 +83,7 @@
         opacity: 0.5;
         border-radius: 5px;
         color: white;
-        height: 200px;
+        height: 75px;
         width: 100%;
       }
     }

@@ -8,7 +8,7 @@ const Hotels = () => {
   useEffect(() => {
     const getHotelData = async () => {
       try {
-        const response = await axios.get(URLS.HotelData);
+        const response = await axios.get(URLS.hotelData);
         setHotelData(response.data);
       } catch (err) {
         console.error(err);

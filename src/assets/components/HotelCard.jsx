@@ -42,15 +42,16 @@ const HotelCard = ({ hotelData }) => {
   const handleBooking = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-          return Swal.fire({
-            icon: "info",
-            title: "You are not logged in.",
-            text: "You must be logged in to make a booking.",
-            footer: '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
-          });
-        }
+      return Swal.fire({
+        icon: "info",
+        title: "You are not logged in.",
+        text: "You must be logged in to make a booking.",
+        footer:
+          '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+      });
+    }
     const user_id = user._id;
-    if (!hotelStartDate) return alert("Please select a start date");
+    if (!hotelStartDate) return Swal.fire("Please select a reservation date");
 
     const bookingData = {
       bookedUserId: user_id,
@@ -61,8 +62,17 @@ const HotelCard = ({ hotelData }) => {
     };
 
     try {
-      sendBooking(bookingData);
-      alert("Hotel booking successful!");
+      Swal.fire({
+        title: "Are you sure?",
+        text: 'Payments will be done on site',
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Book",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          sendBooking(bookingData);
+        }
+      });
       closeModal();
     } catch (error) {
       console.error("Booking failed:", error);
