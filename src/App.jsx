@@ -9,6 +9,7 @@ import {
   Vehicles,
   Admin,
   Booking,
+  Profile,
 } from "./assets/pages";
 import { Navbar, Footer } from "./assets/components";
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/vehicles' element={<Vehicles />}></Route>
         <Route path='/admin' element={<Admin />}></Route>
         <Route path='/booking' element={<Booking />}></Route>
+        <Route path='/profile' element={<Profile />}></Route>
       </Routes>
       <Footer />
     </>

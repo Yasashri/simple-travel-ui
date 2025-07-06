@@ -8,3 +8,5 @@ export { default as CreateUser } from "../pages/CreateUser";
 export { default as Admin } from "../pages/Admin";
 
 export {default as Booking} from "../pages/Booking";
+
+export {default as Profile} from "../pages/Profie";
