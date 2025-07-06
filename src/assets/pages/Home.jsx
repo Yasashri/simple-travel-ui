@@ -20,7 +20,7 @@ const Home = () => {
     const getHomeData = async () => {
       try {
         const response = await axios.get(URLS.homePageData);
-        console.log(response.data.flights);
+        
         setFlightData(response.data.flights);
         setHotelData(response.data.hotels);
         setVehicleData(response.data.vehicles);
@@ -43,7 +43,7 @@ const Home = () => {
     if (searchQuery != []) {
       try {
         const response = await axios.post(URLS.searchHomeData, search);
-        console.log(response.data);
+    
         setFlightData(response.data.flights);
         setHotelData(response.data.hotels);
         setVehicleData(response.data.vehicles);

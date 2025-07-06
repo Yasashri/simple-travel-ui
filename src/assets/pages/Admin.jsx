@@ -207,9 +207,9 @@ const Admin = () => {
   };
 
   const handleDelete = async () => {
-    console.log("modalType", modalType);
+    
     const url = `${URLS[modalType.slice(0, -1) + "Data"]}/${selectedData._id}`;
-    console.log("url", url);
+    
     try {
       await axios.delete(url);
       fetchAllData();

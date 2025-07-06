@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../styles/Card.css";
 import moment from "moment";
 import { sendBooking } from "../services/bookingService";
@@ -19,10 +19,7 @@ const FlightCard = ({ flightData }) => {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
 
-  useEffect(() => {
-    console.log("flightData", flightData);
-    console.log("selectedFlight", selectedFlight);
-  });
+  
 
   const cardClick = (flight) => {
     setSelectedFlight(flight);
@@ -127,6 +124,7 @@ const FlightCard = ({ flightData }) => {
       flightNoOfSeats: seatCount,
       flightClass: flightClass,
       flightDate: departureDate,
+      flighEnd: destination,
       flightReturn: returnDate,
       flightTime: moment(selectedFlight.flightDate).format("HH:mm"),
       flightTotalPrice: totalPrice,

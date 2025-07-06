@@ -6,3 +6,5 @@ export { default as Login } from "./Login";
 export { default as CreateUser } from "../pages/CreateUser";
 
 export { default as Admin } from "../pages/Admin";
+
+export {default as Booking} from "../pages/Booking";
