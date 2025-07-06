@@ -19,8 +19,6 @@ const FlightCard = ({ flightData }) => {
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
 
-  
-
   const cardClick = (flight) => {
     setSelectedFlight(flight);
     setDestination(flight.flightEnd);
@@ -60,13 +58,14 @@ const FlightCard = ({ flightData }) => {
   const totalPrice = pricePerSeat * seatCount;
 
   const handleBooking = () => {
-     const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       return Swal.fire({
         icon: "info",
         title: "You are not logged in.",
         text: "You must be logged in to make a booking.",
-        footer: '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+        footer:
+          '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
       });
     }
 
@@ -126,7 +125,7 @@ const FlightCard = ({ flightData }) => {
       flightDate: departureDate,
       flighEnd: destination,
       flightReturn: returnDate,
-      flightTime: moment(selectedFlight.flightDate).format("HH:mm"),
+      flightTime: moment(selectedFlight.flightTime).format("HH:mm"),
       flightTotalPrice: totalPrice,
       returnDate: returnDate || null,
     };
@@ -161,7 +160,10 @@ const FlightCard = ({ flightData }) => {
               <span> to </span>
               <span>{item.flightEnd}</span>
             </div>
-            <span>{moment(item.flightDate).format("YYYY-MM-DD HH:mm")}</span>
+            <span>
+              {moment(item.flightDate).format("YYYY-MM-DD")}{" "}
+              {moment(item.flightTime, "HH:mm").format("hh:mm A")}{" "}
+            </span>
           </div>
         </div>
       ))}

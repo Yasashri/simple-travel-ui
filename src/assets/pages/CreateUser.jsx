@@ -26,12 +26,12 @@ const CreateUser = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(URLS.userData, formData);
+      await axios.post(URLS.userData, formData);
 
-      if (!res.ok) {
+      /*  if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to create user");
-      }
+      } */
 
       Swal.fire({
         icon: "success",
