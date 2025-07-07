@@ -63,7 +63,11 @@ const VehicleCard = ({ vehicleData }) => {
           sendBooking(bookingData);
         }
       });
-
+ Swal.fire({
+          title: "Booked!",
+          text: "Your booking has been completed.",
+          icon: "success",
+        });
       closeModal();
     } catch (error) {
       console.error("Booking failed:", error);

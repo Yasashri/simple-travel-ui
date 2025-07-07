@@ -5,6 +5,7 @@ import "../styles/Booking.css";
 import { URLS } from "../../config/constant";
 import moment from "moment";
 import BookingLoader from "../components/BookingLoader";
+import Swal from "sweetalert2";
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -23,7 +24,6 @@ const Booking = () => {
   const fetchUserBookings = async () => {
     setLoader(true);
     try {
-      
       const res = await axios.get(`${URLS.userBookings}/user?userId=${userId}`);
       setUserBookings(res.data);
       setLoader(false);
@@ -34,17 +34,29 @@ const Booking = () => {
   };
 
   const handleDelete = async (bookingId) => {
-    const confirm = window.confirm(
-      "Are you sure you want to delete this booking?"
-    );
-    if (!confirm) return;
-
-    try {
-      await axios.delete(`http://127.0.0.1:3000/api/bookings/${bookingId}`);
-      setUserBookings(userBookings.filter((b) => b._id !== bookingId));
-    } catch (err) {
-      console.error("Failed to delete booking:", err);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this! Service providers will be informed.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          axios.delete(`http://127.0.0.1:3000/api/bookings/${bookingId}`);
+          setUserBookings(userBookings.filter((b) => b._id !== bookingId));
+        } catch (err) {
+          Swal.fire("Failed to delete booking:", err);
+        }
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your booking has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
   console.log("userBookings", userBookings);
   return (
