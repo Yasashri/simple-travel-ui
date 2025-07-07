@@ -13,7 +13,7 @@ const TravelGuide = () => {
 
       <section className="country-section">
         <h3>🇦🇺 Australia</h3>
-        <img src="https://source.unsplash.com/800x400/?australia,sydney" alt="Australia" />
+        <img src="aus.webp" alt="Australia" />
         <p>
           Australia is a land of vibrant cities, stunning coastlines, and the
           outback. From the iconic Sydney Opera House to the Great Barrier Reef,
@@ -28,7 +28,7 @@ const TravelGuide = () => {
 
       <section className="country-section">
         <h3>🇬🇧 England</h3>
-        <img src="https://source.unsplash.com/800x400/?england,london" alt="England" />
+        <img src="uk.jpg" alt="England" />
         <p>
           England offers a mix of royal heritage, modern life, and cozy
           countryside. Visit iconic landmarks and experience rich history.
@@ -42,7 +42,7 @@ const TravelGuide = () => {
 
       <section className="country-section">
         <h3>🇳🇿 New Zealand</h3>
-        <img src="https://source.unsplash.com/800x400/?newzealand,landscape" alt="New Zealand" />
+        <img src="nz.webp" alt="New Zealand" />
         <p>
           Known for its breathtaking nature, New Zealand is perfect for
           adventurers and nature lovers. Explore glaciers, fjords, and Maori culture.

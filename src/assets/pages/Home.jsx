@@ -69,6 +69,9 @@ const Home = () => {
       });
     }
   };
+  const refreshSearch = () => {
+    window.location.href = "/";
+  };
   return (
     <>
       {loading ? (
@@ -95,6 +98,11 @@ const Home = () => {
                 id=''
                 placeholder='Looking for a flight, hotel, or a cab?'
               />
+              {searchQuery != "" && (
+                <span className='close-search' onClick={refreshSearch}>
+                  X
+                </span>
+              )}
               <button onClick={searchData}>Search</button>
             </div>
           </div>
@@ -109,9 +117,7 @@ const Home = () => {
                 </div>
               ) : (
                 <>
-                  <h2>
-                    Latest Flights
-                  </h2>
+                  <h2>Latest Flights</h2>
                   <FlightCard flightData={flightData} />
                 </>
               )}
@@ -123,9 +129,7 @@ const Home = () => {
                 </div>
               ) : (
                 <>
-                  <h2>
-                    Best Hotels
-                  </h2>
+                  <h2>Best Hotels</h2>
                   <HotelCard hotelData={hotelData} />
                 </>
               )}

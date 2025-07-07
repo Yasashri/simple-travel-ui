@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "../styles/Admin.module.css";
+import "../styles/Admin.css";
 import { URLS } from "../../config/constant";
 
 const Admin = () => {

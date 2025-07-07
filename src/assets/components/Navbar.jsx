@@ -11,7 +11,7 @@ const Navbar = () => {
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
-        
+
         setUserFirstName(user?.userFirstName);
         setUserId(user?._id);
         setIsAdmin(user?.userIsAdmin);
@@ -24,11 +24,14 @@ const Navbar = () => {
   }, []);
 
   const navigate = useNavigate();
+  const goHome = () => {
+    window.location.href = "/";
+  };
   return (
     <div className='navbar'>
       <div className='navbar__logo'>
         {/* <img src='logo.png' alt='logo' /> */}
-        <h2>Smart Travel Companion</h2>
+        <h2 onClick={goHome}>Smart Travel Companion</h2>
       </div>
       <div className='navbar__options'>
         <ul className='navbar__pages'>

@@ -11,6 +11,7 @@ import {
   Booking,
   Profile,
   TravelGuide,
+  Contact,
 } from "./assets/pages";
 import { Navbar, Footer } from "./assets/components";
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='/booking' element={<Booking />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/travel-guide' element={<TravelGuide />}></Route>
+        <Route path='/contact' element={<Contact />}></Route>
       </Routes>
       <Footer />
     </>

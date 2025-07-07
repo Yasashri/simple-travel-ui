@@ -26,6 +26,9 @@ li {
       /* height: 87px; */
       width: 167px;
     }
+    &:hover{
+      cursor: pointer;
+    }
   }
   .navbar__options {
     display: flex;

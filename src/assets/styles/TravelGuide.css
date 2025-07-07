@@ -1,59 +1,59 @@
 .travel-guide-container {
-  font-family: 'Segoe UI', sans-serif;
-  color: #333;
-  background-color: #f9f9f9;
-}
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+  margin-bottom: 20px;
+  .intro-section {
+    text-align: center;
+    padding: 40px 20px 20px;
+    
+  }
 
+  .intro-section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
 
-.intro-section {
-  text-align: center;
-  padding: 40px 20px 20px;
-  background-color: #e3f2fd;
-}
+  .intro-section p {
+    font-size: 18px;
+    color:white;
+  }
 
-.intro-section h2 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
+  .country-section {
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: auto;
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    color: black;
+  }
 
-.intro-section p {
-  font-size: 18px;
-  color: #555;
-}
+  .country-section h3 {
+    font-size: 26px;
+    margin-bottom: 15px;
+  }
 
-.country-section {
-  padding: 40px 20px;
-  max-width: 900px;
-  margin: auto;
-  background-color: white;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-}
+  .country-section img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
 
-.country-section h3 {
-  font-size: 26px;
-  margin-bottom: 15px;
-}
+  .country-section p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #444;
+  }
 
-.country-section img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
+  .country-section ul {
+    padding-left: 20px;
+  }
 
-.country-section p {
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: #444;
-}
-
-.country-section ul {
-  padding-left: 20px;
-}
-
-.country-section li {
-  font-size: 15px;
-  margin-bottom: 5px;
+  .country-section li {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: black;
+  }
 }

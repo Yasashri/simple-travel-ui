@@ -136,7 +136,7 @@ const FlightCard = ({ flightData }) => {
 
     Swal.fire(
       "Payment Successful",
-      `Your flight to ${destination} has been booked.`,
+      `Your flight to ${destination} has been booked. See bookings"}`,
       "success"
     );
   };
