@@ -164,7 +164,7 @@ const Admin = () => {
       }`;
 
       try {
-        // send JSON data with image URLs included in the values
+        
         if (modalMode === "add") await axios.post(url, values);
         else await axios.put(url, values);
 
@@ -176,8 +176,7 @@ const Admin = () => {
     },
   });
 
-  // Upload image(s) to server immediately on selection,
-  // then set the returned URL(s) in Formik's values for later submission
+  
   const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;

@@ -31,7 +31,7 @@ const Profile = () => {
       await axios.put(URLS.userData + "/" + user._id, {
         userFirstName: firstName,
         userLastName: lastName,
-        userPassword: newPassword, // Send empty if not updating password
+        userPassword: newPassword,
       });
 
       Swal.fire("Success", "Profile updated successfully", "success");

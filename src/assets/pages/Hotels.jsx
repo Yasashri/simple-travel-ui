@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { URLS } from "../../config/constant";
 import { HotelCard } from "../components";
 import axios from "axios";
-import "../styles/Hotels.css"; // Add this line
+import "../styles/Hotels.css";
 
 const Hotels = () => {
   const [hotelData, setHotelData] = useState([]);
@@ -14,7 +14,7 @@ const Hotels = () => {
       try {
         const response = await axios.get(URLS.hotelData);
         setHotelData(response.data);
-        setFilteredData(response.data); // Initially show all hotels
+        setFilteredData(response.data);
       } catch (err) {
         console.error(err);
       }

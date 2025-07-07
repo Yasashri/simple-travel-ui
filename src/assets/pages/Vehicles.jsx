@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { URLS } from "../../config/constant";
 import { VehicleCard } from "../components";
 import axios from "axios";
-import "../styles/Vehicles.css"; // Add CSS
+import "../styles/Vehicles.css";
 
 const Vehicles = () => {
   const [vehicleData, setVehicleData] = useState([]);
@@ -14,7 +14,7 @@ const Vehicles = () => {
       try {
         const response = await axios.get(URLS.vehicleData);
         setVehicleData(response.data);
-        setFilteredData(response.data); // Show all initially
+        setFilteredData(response.data); 
       } catch (err) {
         console.error(err);
       }
@@ -39,7 +39,7 @@ const Vehicles = () => {
     return (
       name.includes(term) ||
       type.includes(term) ||
-      basePrice.includes(term) // Match numeric values too
+      basePrice.includes(term)
     );
   });
 
