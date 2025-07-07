@@ -58,7 +58,7 @@ const CreateUser = () => {
 
   return (
     <div className='create-user-container'>
-      <h2>Create New User</h2>
+      <h2>Create new account</h2>
       <form onSubmit={handleSubmit} className='create-user-form'>
         <input
           type='text'

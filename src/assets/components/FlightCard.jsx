@@ -65,7 +65,7 @@ const FlightCard = ({ flightData }) => {
         title: "You are not logged in.",
         text: "You must be logged in to make a booking.",
         footer:
-          '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+          '<a href="/login">Go to login?</a> <a href="/create-user"> Create account?</a>',
       });
     }
 
@@ -177,7 +177,7 @@ const FlightCard = ({ flightData }) => {
             </button>
             <h2>Book Flight: {selectedFlight.flightNo}</h2>
             <span>{selectedFlight.flightModel}</span>
-            <p>
+            <p className="modal-flight-route">
               From: {selectedFlight.flightStart} <br />
               To: {selectedFlight.flightEnd}
             </p>
@@ -225,7 +225,7 @@ const FlightCard = ({ flightData }) => {
               />
             </label>
 
-            <p>
+            <p className="flight-prices">
               Price per Seat: ${pricePerSeat} <br />
               Total Price: ${totalPrice}
             </p>

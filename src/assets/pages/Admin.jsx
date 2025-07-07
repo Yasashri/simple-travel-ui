@@ -114,6 +114,7 @@ const Admin = () => {
       "hotelLocation",
       "hotelPrice",
       "hotelContact",
+      "hotelCountry",
     ],
     vehicles: [
       "vehicleNo",
@@ -121,6 +122,7 @@ const Admin = () => {
       "vehicleContact",
       "vehicleModel",
       "vehicleBasePrice",
+      "vehicleCountry",
     ],
   };
 
@@ -140,6 +142,7 @@ const Admin = () => {
       hotelLocation: Yup.string().required(),
       hotelPrice: Yup.number().required(),
       hotelContact: Yup.number().required(),
+      hotelCountry: Yup.string().required(),
     }),
     vehicles: Yup.object({
       vehicleNo: Yup.string().required(),
@@ -147,6 +150,7 @@ const Admin = () => {
       vehicleContact: Yup.number().required(),
       vehicleModel: Yup.string().required(),
       vehicleBasePrice: Yup.number().required(),
+      vehicleCountry: Yup.string().required(),
     }),
   };
 
@@ -207,9 +211,8 @@ const Admin = () => {
   };
 
   const handleDelete = async () => {
-    
     const url = `${URLS[modalType.slice(0, -1) + "Data"]}/${selectedData._id}`;
-    
+
     try {
       await axios.delete(url);
       fetchAllData();
@@ -245,7 +248,13 @@ const Admin = () => {
         title='Hotels'
         data={hotels}
         type='hotels'
-        keys={["hotelName", "hotelLocation", "hotelPrice", "hotelContact"]}
+        keys={[
+          "hotelName",
+          "hotelLocation",
+          "hotelPrice",
+          "hotelContact",
+          "hotelCountry",
+        ]}
       />
       <Section
         title='Vehicles'
@@ -256,6 +265,7 @@ const Admin = () => {
           "vehicleDriver",
           "vehicleContact",
           "vehicleBasePrice",
+          "vehicleCountry",
         ]}
       />
 

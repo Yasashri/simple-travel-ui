@@ -9,6 +9,9 @@ a {
 }
 li {
   list-style: none;
+   &:hover{
+        cursor: pointer;
+      }
 }
 .navbar {
   border-bottom: 1px solid grey;
@@ -34,6 +37,9 @@ li {
     .navbar__user {
       text-align: center;
       vertical-align: middle;
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
 }

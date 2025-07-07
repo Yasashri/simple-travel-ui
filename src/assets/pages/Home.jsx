@@ -93,7 +93,7 @@ const Home = () => {
                 onChange={handleSearchInput}
                 name=''
                 id=''
-                placeholder='Where are you planning to go?'
+                placeholder='Looking for a flight, hotel, or a cab?'
               />
               <button onClick={searchData}>Search</button>
             </div>
@@ -110,7 +110,7 @@ const Home = () => {
               ) : (
                 <>
                   <h2>
-                    Latest Flights (<a href='/'>See all</a>)
+                    Latest Flights
                   </h2>
                   <FlightCard flightData={flightData} />
                 </>
@@ -124,7 +124,7 @@ const Home = () => {
               ) : (
                 <>
                   <h2>
-                    Best Hotels (<a href='/'>See all</a>)
+                    Best Hotels
                   </h2>
                   <HotelCard hotelData={hotelData} />
                 </>

@@ -37,7 +37,7 @@ const Navbar = () => {
             <a href={`/booking?user_id=${userId}&prev=${isAdmin}`}>Bookings</a>
           </li>
           <li>
-            <a href='/about'>Travel guide</a>
+            <a href='/travel-guide'>Travel guide</a>
           </li>
           <li>
             <a href='/contact'>Contact</a>

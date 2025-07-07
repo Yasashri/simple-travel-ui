@@ -23,11 +23,14 @@
 .create-user-form input[type="email"],
 .create-user-form input[type="password"],
 .create-user-form input[type="tel"] {
-  padding: 10px 14px;
+  padding-left: 10px;
+  height: 40px;
   margin-bottom: 14px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 15px;
+  background-color: white;
+  color: black;
 }
 
 .create-user-form label {
@@ -51,6 +54,7 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
+  margin-right: 0;
 }
 
 .create-user-form button:hover {

@@ -55,8 +55,8 @@ const Profile = () => {
   };
   return (
     <div className='profile-container'>
-      <h2>My Profile</h2>
-      <h3 onClick={logOut} style={{color:"Black"}}>Log out</h3>
+      <h2>{firstName} {lastName}</h2>
+      <h3 onClick={logOut}>Log out</h3>
       <label>First Name:</label>
       <input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
 

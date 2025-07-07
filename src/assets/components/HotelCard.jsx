@@ -47,7 +47,7 @@ const HotelCard = ({ hotelData }) => {
         title: "You are not logged in.",
         text: "You must be logged in to make a booking.",
         footer:
-          '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+          '<a href="/login">Go to login?</a> <a href="/create-user"> Create account?</a>',
       });
     }
     const user_id = user._id;
@@ -107,8 +107,10 @@ const HotelCard = ({ hotelData }) => {
               ×
             </button>
             <h2>Book Hotel: {selectedHotel.hotelName}</h2>
-            <p>Location: {selectedHotel.hotelLocation}</p>
-
+            <div className="hotel-info">
+            <p style={{marginBottom:"5px", marginTop:0}}>Location: {selectedHotel.hotelLocation}</p>
+            <p style={{marginTop:0, marginBottom:0}}>Contact: {selectedHotel.hotelContact}</p>
+</div>
             {/* Room Type Selection */}
             <label>
               Select Room Type:
@@ -136,7 +138,7 @@ const HotelCard = ({ hotelData }) => {
 
             {/* Start Date */}
             <label>
-              Start Date:
+              Date:
               <input
                 type='date'
                 value={hotelStartDate}
@@ -146,7 +148,7 @@ const HotelCard = ({ hotelData }) => {
             </label>
 
             {/* Price Display */}
-            <p>
+            <p className="hotel-prices">
               Price per Day: ${pricePerDay} <br />
               Total Price: ${totalPrice}
             </p>

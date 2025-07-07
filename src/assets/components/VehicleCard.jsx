@@ -34,7 +34,7 @@ const VehicleCard = ({ vehicleData }) => {
         title: "You are not logged in.",
         text: "You must be logged in to make a booking.",
         footer:
-          '<a href="/login">Go to login?</a> <a href="/login"> Create account?</a>',
+          '<a href="/login">Go to login?</a> <a href="/create-user"> Create account?</a>',
       });
     }
     const user_id = user?._id;
@@ -98,10 +98,11 @@ const VehicleCard = ({ vehicleData }) => {
               ×
             </button>
             <h2>Book Vehicle: {selectedVehicle.vehicleNo}</h2>
+            <div className="vehi-info">
             <p>Model: {selectedVehicle.vehicleModel}</p>
             <p>Driver: {selectedVehicle.vehicleDriver}</p>
             <p>Contact: +{selectedVehicle.vehicleContact}</p>
-
+</div>
             {/* Travel Distance */}
             <label>
               Distance to Travel (km):
@@ -136,7 +137,7 @@ const VehicleCard = ({ vehicleData }) => {
             </label>
 
             {/* Price Display */}
-            <p>
+            <p className="vehi-price">
               Price per km: ${pricePerKm} <br />
               Total Price: ${totalPrice}
             </p>

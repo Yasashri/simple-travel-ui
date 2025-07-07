@@ -10,6 +10,7 @@ import {
   Admin,
   Booking,
   Profile,
+  TravelGuide,
 } from "./assets/pages";
 import { Navbar, Footer } from "./assets/components";
 
@@ -27,6 +28,7 @@ function App() {
         <Route path='/admin' element={<Admin />}></Route>
         <Route path='/booking' element={<Booking />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
+        <Route path='/travel-guide' element={<TravelGuide />}></Route>
       </Routes>
       <Footer />
     </>
