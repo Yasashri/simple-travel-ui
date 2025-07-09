@@ -1,0 +1,62 @@
+.create-user-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px 30px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-user-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 22px;
+}
+
+.create-user-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-user-form input[type="text"],
+.create-user-form input[type="email"],
+.create-user-form input[type="password"],
+.create-user-form input[type="tel"] {
+  padding-left: 10px;
+  height: 40px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: white;
+  color: black;
+}
+
+.create-user-form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 15px;
+  color: #444;
+}
+
+.create-user-form input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.create-user-form button {
+  padding: 10px 16px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-right: 0;
+}
+
+.create-user-form button:hover {
+  background-color: #0056b3;
+}

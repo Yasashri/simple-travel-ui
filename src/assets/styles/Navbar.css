@@ -1,0 +1,48 @@
+li,
+a {
+  text-decoration: none;
+  color: white;
+  &:hover{
+    color: black;
+    font-weight: 500;
+  }
+}
+li {
+  list-style: none;
+   &:hover{
+        cursor: pointer;
+      }
+}
+.navbar {
+  border-bottom: 1px solid grey;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  .navbar__logo {
+    display: flex;
+    align-items: center;
+    img {
+      /* height: 87px; */
+      width: 167px;
+    }
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .navbar__options {
+    display: flex;
+    .navbar__pages {
+      display: flex;
+      padding: 0;
+      gap: 10px;
+    }
+    .navbar__user {
+      text-align: center;
+      vertical-align: middle;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+}
