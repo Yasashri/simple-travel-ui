@@ -61,13 +61,14 @@ const VehicleCard = ({ vehicleData }) => {
       }).then((result) => {
         if (result.isConfirmed) {
           sendBooking(bookingData);
+          Swal.fire({
+            title: "Booked!",
+            text: "Your booking has been completed.",
+            icon: "success",
+          });
         }
       });
- Swal.fire({
-          title: "Booked!",
-          text: "Your booking has been completed.",
-          icon: "success",
-        });
+
       closeModal();
     } catch (error) {
       console.error("Booking failed:", error);
@@ -102,11 +103,11 @@ const VehicleCard = ({ vehicleData }) => {
               ×
             </button>
             <h2>Book Vehicle: {selectedVehicle.vehicleNo}</h2>
-            <div className="vehi-info">
-            <p>Model: {selectedVehicle.vehicleModel}</p>
-            <p>Driver: {selectedVehicle.vehicleDriver}</p>
-            <p>Contact: +{selectedVehicle.vehicleContact}</p>
-</div>
+            <div className='vehi-info'>
+              <p>Model: {selectedVehicle.vehicleModel}</p>
+              <p>Driver: {selectedVehicle.vehicleDriver}</p>
+              <p>Contact: +{selectedVehicle.vehicleContact}</p>
+            </div>
             {/* Travel Distance */}
             <label>
               Distance to Travel (km):
@@ -141,7 +142,7 @@ const VehicleCard = ({ vehicleData }) => {
             </label>
 
             {/* Price Display */}
-            <p className="vehi-price">
+            <p className='vehi-price'>
               Price per km: ${pricePerKm} <br />
               Total Price: ${totalPrice}
             </p>

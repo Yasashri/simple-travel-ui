@@ -71,13 +71,14 @@ const HotelCard = ({ hotelData }) => {
       }).then((result) => {
         if (result.isConfirmed) {
           sendBooking(bookingData);
-        }
-      });
-       Swal.fire({
+          Swal.fire({
                 title: "Booked!",
                 text: "Your booking has been completed.",
                 icon: "success",
               });
+        }
+      });
+       
       closeModal();
     } catch (error) {
       console.error("Booking failed:", error);
