@@ -5,7 +5,7 @@ Smart Travel Companion is a modern travel tech web application built with React 
 This is an undergraduate level implementation.
 
 ## This link is for the API for this frontend project
-API : https://github.com/Yasashri/smart-travel-api
+API : https://github.com/Yasashri/simple-travel-api
 
 
 ## Features
